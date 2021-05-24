@@ -29,7 +29,6 @@ object Settings {
     val fs2Version          = "2.5.6"
     val shapelessVersion    = "2.3.7"
     val scalaParsersVersion = "1.1.2"
-    val scalaXmlVerson      = "1.2.0"
     val catsTime            = "0.3.4"
 
     val http4sVersion  = "0.21.23"
@@ -150,8 +149,6 @@ object Settings {
     )
     val OpenCSV          = "net.sf.opencsv" % "opencsv"          % LibraryVersions.opencsv
     val Squants          = Def.setting("org.typelevel" %%% "squants" % LibraryVersions.squants)
-    val ScalaXml         =
-      Def.setting("org.scala-lang.modules" %%% "scala-xml" % LibraryVersions.scalaXmlVerson)
     val Http4s           = Seq("org.http4s" %% "http4s-dsl" % LibraryVersions.http4sVersion,
                      "org.http4s" %% "http4s-blaze-server" % LibraryVersions.http4sVersion
     )
@@ -162,7 +159,6 @@ object Settings {
     val Http4sBoopickle  = "org.http4s"    %% "http4s-boopickle" % LibraryVersions.http4sVersion
     val Http4sCore       = "org.http4s"    %% "http4s-core"      % LibraryVersions.http4sVersion
     val Http4sCirce      = "org.http4s"    %% "http4s-circe"     % LibraryVersions.http4sVersion
-    val Http4sXml        = "org.http4s"    %% "http4s-scala-xml" % LibraryVersions.http4sVersion
     val Http4sPrometheus =
       "org.http4s" %% "http4s-prometheus-metrics" % LibraryVersions.http4sVersion
     val Monocle = Def.setting(

@@ -87,10 +87,10 @@ object TestCommon {
     instForceError = false,
     failAt = 0,
     10.seconds,
-    tag[GpiSettings][Uri](uri("vm://localhost:8888/xmlrpc")),
-    tag[GpiSettings][Uri](uri("http://localhost:8888/xmlrpc")),
-    tag[GhostSettings][Uri](uri("vm://localhost:8888/xmlrpc")),
-    tag[GhostSettings][Uri](uri("http://localhost:8888/xmlrpc")),
+    tag[GpiSettings][Uri](uri("vm://localhost:8888")),
+    tag[GpiSettings][Uri](uri("http://localhost:8888")),
+    tag[GhostSettings][Uri](uri("vm://localhost:8888")),
+    tag[GhostSettings][Uri](uri("http://localhost:8888")),
     "",
     Some("127.0.0.1"),
     0,
@@ -176,9 +176,7 @@ object TestCommon {
     .simulatedGpiClient[IO]
     .use(x =>
       IO(
-        GpiController(x,
-                      GdsClient(GdsClient.alwaysOkClient[IO], uri("http://localhost:8888/xmlrpc"))
-        )
+        GpiController(x, GdsClient(GdsClient.alwaysOkClient[IO], uri("http://localhost:8888")))
       )
     )
 
@@ -186,9 +184,7 @@ object TestCommon {
     .simulatedGhostClient[IO]
     .use(x =>
       IO(
-        GhostController(x,
-                        GdsClient(GdsClient.alwaysOkClient[IO], uri("http://localhost:8888/xmlrpc"))
-        )
+        GhostController(x, GdsClient(GdsClient.alwaysOkClient[IO], uri("http://localhost:8888")))
       )
     )
 

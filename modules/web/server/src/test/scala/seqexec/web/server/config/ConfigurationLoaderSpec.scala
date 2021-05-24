@@ -52,9 +52,9 @@ class ConfigurationLoaderSpec extends CatsSuite {
     2,
     3.seconds,
     tag[GpiSettings][Uri](uri("vm://gpi?marshal=false&broker.persistent=false")),
-    tag[GpiSettings][Uri](uri("http://localhost:8888/xmlrpc")),
+    tag[GpiSettings][Uri](uri("http://localhost:8888")),
     tag[GhostSettings][Uri](uri("vm://ghost?marshal=false&broker.persistent=false")),
-    tag[GhostSettings][Uri](uri("http://localhost:8888/xmlrpc")),
+    tag[GhostSettings][Uri](uri("http://localhost:8888")),
     "tcs=tcs:, ao=ao:, gm=gm:, gc=gc:, gw=ws:, m2=m2:, oiwfs=oiwfs:, ag=ag:, f2=f2:, gsaoi=gsaoi:, aom=aom:, myst=myst:, rtc=rtc:",
     Some("127.0.0.1"),
     0,
@@ -155,9 +155,9 @@ seqexec-engine {
     ioTimeout = 5 seconds
     dhsTimeout = 10 seconds
     gpiUrl = "vm://gpi?marshal=false&broker.persistent=false"
-    gpiGDS = "http://localhost:8888/xmlrpc"
+    gpiGDS = "http://localhost:8888"
     ghostUrl = "vm://ghost?marshal=false&broker.persistent=false"
-    ghostGDS = "http://localhost:8888/xmlrpc"
+    ghostGDS = "http://localhost:8888"
 }
 
 """
