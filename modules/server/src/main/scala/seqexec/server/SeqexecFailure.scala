@@ -46,6 +46,9 @@ object SeqexecFailure {
   /** Exception thrown while communicating with the GDS */
   final case class GdsException(ex: Throwable, url: Uri) extends SeqexecFailure
 
+  /** XMLRPC error while communicating with the GDS */
+  final case class GdsXmlError(msg: String, url: Uri) extends SeqexecFailure
+
   /** Null epics read */
   final case class NullEpicsError(channel: String) extends SeqexecFailure
 
@@ -76,6 +79,7 @@ object SeqexecFailure {
     case OdbSeqError(fail)            => SeqFailure.explain(fail)
     case GdsException(ex, url)        =>
       s"Failure communicating with GDS at $url: ${ex.getMessage}"
+    case GdsXmlError(msg, url)        => s"XML RPC error with GDS at $url: $msg"
     case FailedSimulation             => s"Failed to simulate"
     case NullEpicsError(channel)      => s"Failed to read epics channel: $channel"
     case ObsTimeout(fileId)           => s"Observation of $fileId timed out"

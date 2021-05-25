@@ -18,14 +18,14 @@ import seqexec.model.{ Observation, ProgramId }
 import seqexec.server.TestCommon._
 import seqexec.server.SeqexecFailure
 
-import GdsClient._
+import GdsHttpClient._
 
-final class GdsClientSpec extends CatsSuite {
+final class GdsHttpClientSpec extends CatsSuite {
   val uri: Uri    = Uri.unsafeFromString("http://localhost:8888")
   val badStatuses = List(Status.BadRequest, Status.NotFound, Status.RequestTimeout)
 
   test("openObservation should succeed if http client returns Status.Ok") {
-    val client = GdsClient(httpClient(Status.Ok, "Success"), uri)
+    val client = GdsHttpClient(httpClient(Status.Ok, "Success"), uri)
     val progId =
       ProgramId.Science(Site.GN, Semester(Year.of(2021), Half.A), ProgramType.CAL, Index.One)
     val obsId  = Observation.Id(progId, Index.One)
@@ -43,7 +43,7 @@ final class GdsClientSpec extends CatsSuite {
     val ks     =
       KeywordBag(BooleanKeyword(KeywordName.SSA, false), DoubleKeyword(KeywordName.OBJECT, 98.76))
     badStatuses.foreach { status =>
-      val client = GdsClient(httpClient(status, "Error"), uri)
+      val client = GdsHttpClient(httpClient(status, "Error"), uri)
       assertThrows[SeqexecFailure.GdsException](
         client.openObservation(obsId, id, ks).unsafeRunSync()
       )
@@ -51,7 +51,7 @@ final class GdsClientSpec extends CatsSuite {
   }
 
   test("closeObservation should succeed if http client returns Status.Ok") {
-    val client = GdsClient(httpClient(Status.Ok, "Success"), uri)
+    val client = GdsHttpClient(httpClient(Status.Ok, "Success"), uri)
     val id     = toImageFileId("IFI")
     client.closeObservation(id).attempt.unsafeRunSync().isRight shouldEqual true
   }
@@ -59,13 +59,13 @@ final class GdsClientSpec extends CatsSuite {
   test("closeObservation should throw exception if http client returns a bad status") {
     val id = toImageFileId("ID")
     badStatuses.foreach { status =>
-      val client = GdsClient(httpClient(status, "Error"), uri)
+      val client = GdsHttpClient(httpClient(status, "Error"), uri)
       assertThrows[SeqexecFailure.GdsException](client.closeObservation(id).unsafeRunSync())
     }
   }
 
   test("setKeywords should succeed if http client returns Status.Ok") {
-    val client = GdsClient(httpClient(Status.Ok, "Success"), uri)
+    val client = GdsHttpClient(httpClient(Status.Ok, "Success"), uri)
     val id     = toImageFileId("IFI")
     val ks     = KeywordBag(StringKeyword(KeywordName.INSTRUMENT, "The INSTR."),
                         Int32Keyword(KeywordName.OBJECT, 123)
@@ -79,7 +79,7 @@ final class GdsClientSpec extends CatsSuite {
                         Int32Keyword(KeywordName.OBJECT, 123)
     )
     badStatuses.foreach { status =>
-      val client = GdsClient(httpClient(status, "Error"), uri)
+      val client = GdsHttpClient(httpClient(status, "Error"), uri)
       assertThrows[SeqexecFailure.GdsException](client.setKeywords(id, ks).unsafeRunSync())
     }
   }

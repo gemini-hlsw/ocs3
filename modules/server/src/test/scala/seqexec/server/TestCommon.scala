@@ -38,7 +38,7 @@ import seqexec.server.gnirs.{ GnirsControllerSim, GnirsKeywordReaderDummy }
 import seqexec.server.gpi.GpiController
 import seqexec.server.gsaoi.{ GsaoiControllerSim, GsaoiKeywordReaderDummy }
 import seqexec.server.gws.DummyGwsKeywordsReader
-import seqexec.server.keywords.{ DhsClientSim, GdsClient }
+import seqexec.server.keywords.{ DhsClientSim, GdsHttpClient, GdsXmlrpcClient }
 import seqexec.server.nifs.{ NifsControllerSim, NifsKeywordReaderDummy }
 import seqexec.server.niri.{ NiriControllerSim, NiriKeywordReaderDummy }
 import seqexec.server.tcs.{
@@ -87,10 +87,10 @@ object TestCommon {
     instForceError = false,
     failAt = 0,
     10.seconds,
-    tag[GpiSettings][Uri](uri("vm://localhost:8888")),
-    tag[GpiSettings][Uri](uri("http://localhost:8888")),
-    tag[GhostSettings][Uri](uri("vm://localhost:8888")),
-    tag[GhostSettings][Uri](uri("http://localhost:8888")),
+    tag[GpiSettings][Uri](uri("vm://localhost:8888/gds-seqexec")),
+    tag[GpiSettings][Uri](uri("http://localhost:8888/gds-seqexec")),
+    tag[GhostSettings][Uri](uri("vm://localhost:8888/xmlrpc")),
+    tag[GhostSettings][Uri](uri("http://localhost:8888/xmlrpc")),
     "",
     Some("127.0.0.1"),
     0,
@@ -176,7 +176,9 @@ object TestCommon {
     .simulatedGpiClient[IO]
     .use(x =>
       IO(
-        GpiController(x, GdsClient(GdsClient.alwaysOkClient[IO], uri("http://localhost:8888")))
+        GpiController(x,
+                      GdsHttpClient(GdsHttpClient.alwaysOkClient[IO], uri("http://localhost:8888"))
+        )
       )
     )
 
@@ -184,7 +186,10 @@ object TestCommon {
     .simulatedGhostClient[IO]
     .use(x =>
       IO(
-        GhostController(x, GdsClient(GdsClient.alwaysOkClient[IO], uri("http://localhost:8888")))
+        GhostController(
+          x,
+          GdsXmlrpcClient(GdsXmlrpcClient.alwaysOkClient[IO], uri("http://localhost:8888"))
+        )
       )
     )
 
