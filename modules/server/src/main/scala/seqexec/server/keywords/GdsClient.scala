@@ -28,6 +28,8 @@ trait GdsClient[F[_]] extends Http4sClientDsl[F] {
 
   def closeObservation(id: ImageFileId): F[Unit]
 
+  def abortObservation(id: ImageFileId): F[Unit]
+
   def makeClient(base: Client[F])(implicit c: Concurrent[F], timer: Timer[F]) = {
     val max             = 2
     var attemptsCounter = 1

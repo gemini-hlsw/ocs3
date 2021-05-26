@@ -64,6 +64,20 @@ final class GdsHttpClientSpec extends CatsSuite {
     }
   }
 
+  test("abortObservation should succeed if http client returns Status.Ok") {
+    val client = GdsHttpClient(httpClient(Status.Ok, "Success"), uri)
+    val id     = toImageFileId("IFI")
+    client.abortObservation(id).attempt.unsafeRunSync().isRight shouldEqual true
+  }
+
+  test("abortObservation should throw exception if http client returns a bad status") {
+    val id = toImageFileId("ID")
+    badStatuses.foreach { status =>
+      val client = GdsHttpClient(httpClient(status, "Error"), uri)
+      assertThrows[SeqexecFailure.GdsException](client.abortObservation(id).unsafeRunSync())
+    }
+  }
+
   test("setKeywords should succeed if http client returns Status.Ok") {
     val client = GdsHttpClient(httpClient(Status.Ok, "Success"), uri)
     val id     = toImageFileId("IFI")
@@ -96,11 +110,11 @@ final class GdsHttpClientSpec extends CatsSuite {
     json shouldEqual openObsExpectedJson
   }
 
-  test("CloseObservationRequests should encode to JSON properly") {
+  test("IdRequests should encode to JSON properly") {
     val id: ImageFileId = toImageFileId("DataLabel")
 
-    val json = CloseObservationRequest(id).asJson.toString
-    json shouldEqual closeObsExpectedJson
+    val json = IdRequest(id).asJson.toString
+    json shouldEqual idRequestExpectedJson
   }
 
   test("KeywordRequests should encode to JSON properly") {
@@ -137,7 +151,7 @@ final class GdsHttpClientSpec extends CatsSuite {
     |  ]
     |}""".stripMargin
 
-  val closeObsExpectedJson = """{
+  val idRequestExpectedJson = """{
     |  "data_label" : "DataLabel"
     |}""".stripMargin
 

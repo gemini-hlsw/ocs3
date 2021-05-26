@@ -118,6 +118,9 @@ object GdsXmlrpcClient {
         .void
     }
 
+    override def abortObservation(id: ImageFileId): F[Unit] =
+      implicitly[Concurrent[F]].unit
+
     private def keywordsParam(ks: KeywordBag): Elem =
       <param>
         <value>

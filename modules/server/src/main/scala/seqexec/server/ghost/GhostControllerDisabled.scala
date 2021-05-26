@@ -25,6 +25,9 @@ class GhostControllerDisabled[F[_]: Logger: Applicative] extends GhostController
 
     override def closeObservation(id: ImageFileId): F[Unit] =
       overrideLogMessage(name, "closeObservation")
+
+    override def abortObservation(id: ImageFileId): F[Unit] =
+      overrideLogMessage(name, "abortObservation")
   }
 
   override def applyConfig(config: GhostConfig): F[Unit] = overrideLogMessage(name, "applyConfig")

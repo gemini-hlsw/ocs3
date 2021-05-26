@@ -39,7 +39,10 @@ object GdsHttpClient {
       makeRequest("open-observation", OpenObservationRequest(obsId, id, ks).asJson)
 
     override def closeObservation(id: ImageFileId): F[Unit] =
-      makeRequest("close-observation", CloseObservationRequest(id).asJson)
+      makeRequest("close-observation", IdRequest(id).asJson)
+
+    override def abortObservation(id: ImageFileId): F[Unit] =
+      makeRequest("abort-observation", IdRequest(id).asJson)
 
     private def makeRequest(path: String, body: Json): F[Unit] = {
       val uri         = gdsUri / path
@@ -55,7 +58,7 @@ object GdsHttpClient {
 
   case class KeywordRequest(id: String, ks: KeywordBag)
   case class OpenObservationRequest(obsId: Observation.Id, id: String, ks: KeywordBag)
-  case class CloseObservationRequest(id: String)
+  case class IdRequest(id: String)
 
   implicit val ikwEncoder: Encoder[InternalKeyword] =
     Encoder.forProduct3("keyword", "value_type", "value")(ikw =>
@@ -70,8 +73,8 @@ object GdsHttpClient {
       (oor.obsId.format, oor.id, oor.ks.keywords)
     )
 
-  implicit val corEncoder: Encoder[CloseObservationRequest] =
-    Encoder.forProduct1("data_label")(cor => cor.id)
+  implicit val irEncoder: Encoder[IdRequest] =
+    Encoder.forProduct1("data_label")(ir => ir.id)
 
   /**
    * Client for testing always returns ok
