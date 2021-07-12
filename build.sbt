@@ -431,7 +431,7 @@ lazy val seqexecLinux = Seq(
   // This lets us build RPMs from snapshot versions
   Linux / name := "Seqexec Server",
   Linux / version := {
-    (ThisBuild / version ).value.replace("-SNAPSHOT", "").replace("-", "_").replace(" ", "")
+    (ThisBuild / version).value.replace("-SNAPSHOT", "").replace("-", "_").replace(" ", "")
   }
 )
 

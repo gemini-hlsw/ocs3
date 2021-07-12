@@ -78,7 +78,7 @@ object SeqexecFailure {
     case EmptySequence(title)         => s"Attempt to enqueue empty sequence $title"
     case OdbSeqError(fail)            => SeqFailure.explain(fail)
     case GdsException(ex, url)        =>
-      s"Failure connecting with GDS at $url: ${ex.getMessage}"
+      s"Failure communicating with GDS at $url: ${ex.getMessage}"
     case GdsXmlError(msg, url)        => s"XML RPC error with GDS at $url: $msg"
     case FailedSimulation             => s"Failed to simulate"
     case NullEpicsError(channel)      => s"Failed to read epics channel: $channel"

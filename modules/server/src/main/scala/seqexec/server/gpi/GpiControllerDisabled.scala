@@ -27,6 +27,9 @@ class GpiControllerDisabled[F[_]: Logger: Applicative](override val statusDb: Gi
 
     override def closeObservation(id: ImageFileId): F[Unit] =
       overrideLogMessage(name, "closeObservation")
+
+    override def abortObservation(id: ImageFileId): F[Unit] =
+      overrideLogMessage(name, "abortObservation")
   }
 
   override def alignAndCalib: F[Unit] = overrideLogMessage(name, "alignAndCalib")

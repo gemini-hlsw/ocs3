@@ -6,10 +6,10 @@ package seqexec.server.keywords
 import cats.tests.CatsSuite
 import scala.xml.XML
 
-final class GdsClientSpec extends CatsSuite {
+final class GdsXmlrpcClientSpec extends CatsSuite {
   test("GDSClient should reject bad responses") {
     val xml = XML.load(getClass.getResource("/gds-bad-resp.xml"))
-    GdsClient
+    GdsXmlrpcClient
       .parseError(xml)
       .isLeft shouldEqual true
   }

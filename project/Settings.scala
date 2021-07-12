@@ -3,8 +3,8 @@ import java.lang.{ Runtime => JRuntime }
 import org.portablescala.sbtplatformdeps.PlatformDepsPlugin.autoImport._
 
 /**
-  * Application settings and dependencies
-  */
+ * Application settings and dependencies
+ */
 object Settings {
 
   /** Library versions */
@@ -86,8 +86,8 @@ object Settings {
   }
 
   /**
-    * Global libraries
-    */
+   * Global libraries
+   */
   object Libraries {
     // Test Libraries
     val TestLibs       = Def.setting(
