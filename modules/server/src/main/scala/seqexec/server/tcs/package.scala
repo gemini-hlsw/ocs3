@@ -59,8 +59,8 @@ package object tcs {
   val BottomPort: Int  = 1
   val InvalidPort: Int = 0
 
-  val tcsTimeout: FiniteDuration = FiniteDuration(60, SECONDS)
-  val agTimeout: FiniteDuration  = FiniteDuration(60, SECONDS)
+  val tcsTimeout: FiniteDuration = FiniteDuration(90, SECONDS)
+  val agTimeout: FiniteDuration  = FiniteDuration(90, SECONDS)
 
   val NonStopExposures = -1
 
